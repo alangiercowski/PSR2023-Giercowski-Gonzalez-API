@@ -1,3 +1,4 @@
+import { routerPublicacion } from "./Controladores/ControladorPublicacion";
 import { routerUsuario } from "./Controladores/ControladorUsuario";
 import cors from "cors";
 const express = require('express')
@@ -10,6 +11,7 @@ app.get("/", (req: any, res: any) => {
 
 app.use(express.json());
 app.use(cors(),routerUsuario);
+app.use(cors(), routerPublicacion)
 
 app.listen(3000, () => {
     console.log("Api corriendo");

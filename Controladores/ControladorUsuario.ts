@@ -11,7 +11,7 @@ const url = "mongodb://localhost:27017/PetMatch";
 const client = new MongoClient(url);
 const database = client.db("PetMatch");
 
-var usuarioDB: AccesoUsuario = new AccesoUsuario(
+export var usuarioDB: AccesoUsuario = new AccesoUsuario(
   url,
   database,
   database.collection("Usuarios")
@@ -24,16 +24,15 @@ function hash(string: string) {
 }
 
 
-routerUsuario.post("/usuarios", async (_req: any, _res: any) => {
+routerUsuario.post("/usuarios/registro", async (_req: any, _res: any) => {
   let usuarioAsubir: Usuario = new Usuario(
     _req.body.correo,
     _req.body.nombre,
     await hash(String(_req.body.contraseña)),
-    _req.body.foto,
     _req.body.direccion
   );
   if(await usuarioDB.getUsuario(usuarioAsubir.correo) != undefined){
-    _res.send("usuario ya existe");
+    _res.send("El mail ya esta en uso");
     return;
   }
   usuarioDB.subirUsuario(usuarioAsubir).then((u) => {

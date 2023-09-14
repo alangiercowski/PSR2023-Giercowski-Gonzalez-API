@@ -15,7 +15,7 @@ export class Publicacion{
     ubicacion: String
     comentarios: Array<Comentario>
 
-    constructor(id: Number, fotos: Array<String>, precio: Number, tipo: Tipo, descripcion: String, caracteristicas: Map<String, String>, titulo: String, mailUsuario: String, ubicacion: String, preguntas: Array<Comentario>){
+    constructor(id: Number, fotos: Array<String>, precio: Number, tipo: Tipo, descripcion: String, caracteristicas: Map<String, String>, titulo: String, mailUsuario: String, ubicacion: String){
         this.id = id
         this.reseñas = []
         this.fotos = fotos
