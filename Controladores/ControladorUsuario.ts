@@ -1,6 +1,7 @@
 import { Usuario } from "../Clases/Usuario";
 import { AccesoUsuario } from "../Accesos/AccesoUsuario";
 import { MongoClient } from "mongodb";
+import { publicacionDB } from "./ControladorPublicacion";
 const Router = require("express")
 const { createHash } = require("crypto");
 const jwt = require("jsonwebtoken");
@@ -54,3 +55,15 @@ routerUsuario.post("/usuarios/login", async (_req: any, _res: any) => {
       })
     });
 
+routerUsuario.delete("/usuarios", async (_req: any, _res: any) => {
+
+  let usuarioTemp = JSON.parse(JSON.stringify(await usuarioDB.getUsuario(_req.body.correo)))
+  console.log(usuarioTemp)
+  usuarioTemp = usuarioTemp.publicaciones
+  for (let i=0; i < usuarioTemp.length; i++){
+    publicacionDB.borrarPublicacion(i)
+  }
+  usuarioDB.deleteUsuario(_req.body.correo)
+  console.log(usuarioTemp)
+  _res.send(204)
+})

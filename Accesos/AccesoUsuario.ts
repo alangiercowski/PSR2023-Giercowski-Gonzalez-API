@@ -2,12 +2,12 @@ import { Collection, Db } from "mongodb";
 import { Usuario } from "../Clases/Usuario";
 const { createHash } = require('crypto');
 
-export class AccesoUsuario{
+export class AccesoUsuario {
     url: String;
     database: Db;
     collection: Collection;
 
-    constructor(url: String, database: Db, collection: Collection){
+    constructor(url: String, database: Db, collection: Collection) {
         this.url = url;
         this.database = database;
         this.collection = collection;
@@ -19,25 +19,30 @@ export class AccesoUsuario{
         return usuario;
     }
 
-    public async subirUsuario(usuario: Usuario){
+    public async deleteUsuario(correo: string) {
+        const filtro = { correo: correo }
+        this.collection.deleteOne(filtro)
+    }
+
+    public async subirUsuario(usuario: Usuario) {
         this.collection.insertOne(JSON.parse(JSON.stringify(usuario)));
     }
 
-    public async login(correo: string, contraseña: string){
+    public async login(correo: string, contraseña: string) {
         const v = await this.getUsuario(correo);
 
-        if(v != undefined){
-            if(v.contraseña == hash(contraseña)){
-                
+        if (v != undefined) {
+            if (v.contraseña == hash(contraseña)) {
+
                 return true;
             }
-            else{
+            else {
                 console.log(v.contraseña)
                 console.log(hash(contraseña))
                 return "contraseña incorrecta";
             }
         }
-        else{
+        else {
             return "Correo no registrado";
         }
     }
