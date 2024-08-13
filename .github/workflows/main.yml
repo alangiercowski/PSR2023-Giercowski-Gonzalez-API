@@ -1,0 +1,22 @@
+name: Docker push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  hace-todo:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
+    - name: Build Docker image
+      run: docker build -t ajelo1/back .
+      
+    - name: Log in to Docker Hub
+      run: docker login -u ajelo1 -p ${{ secrets.DOCKERHUB_PASSWORD }}
+      
+    - name: Push Docker image
+      run: docker push ajelo1/back
